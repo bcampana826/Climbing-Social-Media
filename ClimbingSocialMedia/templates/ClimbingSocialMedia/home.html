@@ -3,6 +3,186 @@
 {% block title %} Rock Climbing Social Media {% endblock %}
 
 {% block content %}
-<h1>Rock Climbing Social Media</h1>
+<style>
+    body {font-family: Arial, Helvetica, sans-serif;}
+    form {border: 3px solid #f1f1f1;}
+    
+    input[type=text], input[type=password] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    
+    button {
+      background-color: blue;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+    
+    button:hover {
+      opacity: 0.8;
+    }
+    
+    .cancelbtn {
+      width: auto;
+      padding: 10px 18px;
+      background-color: #f44336;
+    }
+    
+    .imgcontainer {
+      text-align: center;
+      margin: 24px 0 12px 0;
+    }
+    
+    img.avatar {
+      width: 40%;
+      border-radius: 50%;
+    }
+    
+    .container {
+      padding: 10px;
+    }
+    
+    span.psw {
+      float: right;
+      padding-top: 16px;
+    }
+    
+        
+    
+    /* Change styles for span and cancel button on extra small screens */
+    @media screen and (max-width: 300px) {
+      span.psw {
+         display: block;
+         float: none;
+      }
+      .cancelbtn {
+         width: 100%;
+      }
+    }
+    </style>
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+    body {font-family: Arial, Helvetica, sans-serif;}
+    form {border: 3px solid #f1f1f1;}
+    
+    input[type=text] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    input[type=password] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    
+    button {
+      background-color: blue;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+    
+    button:hover {
+      opacity: 0.8;
+    }
+    
+    .cancelbtn {
+      width: auto;
+      padding: 10px 18px;
+      background-color: #f44336;
+    }
+    
+    .imgcontainer {
+      text-align: center;
+      margin: 24px 0 12px 0;
+    }
+    
+    img.avatar {
+      width: 40%;
+      border-radius: 50%;
+    }
+    
+    .container {
+      padding: 10px;
+    }
+    
+    span.psw {
+      float: right;
+      padding-top: 16px;
+    }
+    
+    span.uname {
+      float: right;
+      padding-top: 16px;
+    }
+        
+    
+    /* Change styles for span and cancel button on extra small screens */
+    @media screen and (max-width: 300px) {
+      span.psw {
+         display: block;
+         float: none;
+      }
+      .cancelbtn {
+         width: 100%;
+      }
+    }
+    </style>
+    </head>
+    <body>
+    
+    <h2><center>Rock Climbing Social Media<center/></h2>
+    
+    <form action="/action_page.php" method="post">
+      <div class="imgcontainer">
+        <img src="data:image/jpeg;base64,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" alt="Avatar" height = "200" class="avatar">
+      </div>
+    
+      <div class="container">
+        <label for="uname"><b>Username</b></label>
+        <input type="text" placeholder="Username or Email" name="uname" required>
+    
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="psw" required>
+            
+        <button type="submit">Login</button>
+        <label>
+          <input type="checkbox" checked="checked" name="remember"> Remember me
+        </label>
+      </div>
+    
+      <div class="container" style="background-color:#f1f1f1">
+        <button type="button" class="cancelbtn">Return</button>
+               <span class="psw">Forgot <a href="#">Password?</a></span>
+             <span class="uname">Forgot <a href="#">Username?</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+             
+      
+      </div>
+    </form>
+    
+    </body>
+    </html>
+    
 
 {% endblock %}
