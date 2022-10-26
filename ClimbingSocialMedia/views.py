@@ -1,9 +1,17 @@
 from django.shortcuts import render
 
-from .models import UserProfile
+from .models import Post
+
 
 def home(request):
     return render(request, 'ClimbingSocialMedia/home.html')
 
+
 def posts(request):
-    return render(request, 'ClimbingSocialMedia/posts.html')
+    data = Post.objects.all()[0]
+
+    post = {
+        "post": data
+    }
+
+    return render(request, 'ClimbingSocialMedia/posts.html', context=post)

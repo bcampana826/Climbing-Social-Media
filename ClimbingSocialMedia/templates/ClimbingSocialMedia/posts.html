@@ -1,28 +1,57 @@
-{% extends 'base.html' %}{% block title %} Rock Climbing Social Media {% endblock %}{% block content %}<nav class="navbar navbar-expand-lg bg-light" style="right: 175px; width: 1450px;">
+{% extends 'base.html' %}{% block title %} Rock Climbing Social Media {% endblock %}{% block content %}
+<style>
+    .navbar-nav {
+        margin-left: 5px;    }    .btn-primary{
+        margin-left: 5px;    }    .btn-outline-success{
+        margin-left: 5px;
+    }    .d-flex{
+        margin-left: 725px;    }    .navbar{
+        right: 175px;
+        width: 1450px;
+    }    .container-post{
+        margin: auto;
+        width: 50%;
+        border: 2px solid black;
+        padding: 10px;
+    }    .description{
+        text-align: center;
+    }    .image{
+        text-align: center;
+        padding: 10px;
+    }
+</style><nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid" >
       <a class="navbar-brand" href="#">ClimbingSocialMedia</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent" style="left: 500px;">
-        <ul class="navbar-nav mt-l mb-lg-0" >
+        <ul class="navbar-nav" >
           <li class="nav-item">
-            <a class="btn btn-primary" href="/Home" role="button">Home</a>
-        </li>
-          <li class="nav-item">
-            <button type="button" class="btn btn-primary">Profile</button>
+            <a class="btn btn-primary" href="/Signin" role="button">Profile</a>
         </li>
         </ul>
         <form class="d-flex" role="search" style="left: 675px;">
           <input class="form-control me-2" type="search" placeholder="Search User" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
-        <ul class="navbar-nav mt-l mb-lg-0">
+        <ul class="navbar-nav">
             <li class="nav-item" >
-                <a class="btn btn-primary" href="/Signin" role="button">Sign Out</a>
+                <a class="btn btn-primary" style="left: 675px;" href="/Signin" role="button">Sign Out</a>
             </li>
           </ul>
       </div>
     </div>
   </nav>
-  {% endblock %}
+  <div class="container-post">
+    <header class=""author>
+        {{post.author}}   </header>
+    <div class = "description">
+        <text>
+            {{post.description}}
+        </text>
+    </div>
+    <div class="image">
+        <img src={{post.media}} alt="Avatar" height = "200" class="avatar">
+    </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <i onclick="myFunction(this)" class="fa fa-thumbs-up">    </i>
+    <input class="commentbar" type="search" placeholder="Add Comment" aria-label="Search">  </div>
+  </div>  {% endblock %}
