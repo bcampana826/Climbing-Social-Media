@@ -1,0 +1,28 @@
+{% extends 'base.html' %}{% block title %} Rock Climbing Social Media {% endblock %}{% block content %}<nav class="navbar navbar-expand-lg bg-light" style="right: 175px; width: 1450px;">
+    <div class="container-fluid" >
+      <a class="navbar-brand" href="#">ClimbingSocialMedia</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent" style="left: 500px;">
+        <ul class="navbar-nav mt-l mb-lg-0" >
+          <li class="nav-item">
+            <a class="btn btn-primary" href="/Home" role="button">Home</a>
+        </li>
+          <li class="nav-item">
+            <button type="button" class="btn btn-primary">Profile</button>
+        </li>
+        </ul>
+        <form class="d-flex" role="search" style="left: 675px;">
+          <input class="form-control me-2" type="search" placeholder="Search User" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        <ul class="navbar-nav mt-l mb-lg-0">
+            <li class="nav-item" >
+                <a class="btn btn-primary" href="/Signin" role="button">Sign Out</a>
+            </li>
+          </ul>
+      </div>
+    </div>
+  </nav>
+  {% endblock %}
