@@ -18,4 +18,14 @@ def posts(request):
         "post": data
     }
 
+    if request.method == 'POST':
+      if request.POST.get('description'):
+            createPost=Post()
+            createPost.description = request.POST.get('description')
+            createPost.save()
+            return render(request, 'ClimbingSocialMedia/Posts.html', context=post)  
+
+    else:
+            return render(request,'ClimbingSocialMedia/Posts.html', context=post)
+   
     return render(request, 'ClimbingSocialMedia/Posts.html', context=post)
