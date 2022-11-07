@@ -67,7 +67,7 @@
    }
    
 </style>
-
+<!------- Top header bar ----->
 <div class="container-fluid">
 <nav class="navbar">
    <div class="container-fluid">
@@ -106,24 +106,25 @@
          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
        </div>
        <div class="modal-body">
-          <div class="mb-3">
+          <div class="form-group">
             <form action="" method="POST">
                 {% csrf_token %}
-               <label class="form-label">Description</label>
-               <textarea cols="35" rows="8" placeholder="Enter Description" name="description" ></textarea>
-               <label class="form-label">Image upload</label>
+                <label for="description-box">Description</label>
+                <textarea class="form-control" rows="3" id="description-box" placeholder="Enter Description" name="description" ></textarea>
+               <label for="image-box">Image upload</label>
+               <textarea class="form-control" rows="1" id="image-box" name ="imageURL" placeholder="URL Link"  ></textarea>
 
-             
          </div>
        </div>
        <div class="modal-footer">
          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-         <button type="" value="Post" class="btn btn-primary">Post</button>
+         <button type="submit" value="Post" class="btn btn-primary">Post</button>
       </form>
        </div>
      </div>
    </div>
  </div>
+  <!-- filling container with posts -->
 {% for key in post %}
 
 <div class="container-post">
@@ -133,6 +134,9 @@
    </div>
    <div class="image">
       <img src={{key.media}} alt="Avatar" height = "200" class="avatar">
+   </div>
+   <div class ="date">
+      <text>{{key.date}}</text>
    </div>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
    <i onclick="myFunction(this)" class="fa fa-thumbs-up">    </i>
