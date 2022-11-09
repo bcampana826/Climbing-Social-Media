@@ -41,19 +41,19 @@ def tos(request):
 
 def posts(request):
     
-    data = Post.objects.all().order_by('-date')
+    data = Post.objects.all().order_by('-date') #orders the post being pulled by date
     post = {
-        "post": data
+        "post": data    #list of posts pushed to frontend
     }
 
-    if request.method == 'POST':
-      if request.POST.get('description'):
-            createPost=Post()
-            createPost.description = request.POST.get('description')
-            createPost.media = request.POST.get('imageURL')
-            createPost.author = request.user
-            createPost.save()
-            return redirect("/post")
+    if request.method == 'POST': #on form submit
+      if request.POST.get('description'): 
+            createPost=Post() #creates a new post in databse
+            createPost.description = request.POST.get('description') #fil's in description field from frontend
+            createPost.media = request.POST.get('imageURL')#  fills in image url fromfrontend
+            createPost.author = request.user #grabs current urser and updates author field
+            createPost.save() #saves and updates databse
+            return redirect("/post") #redirects back to page so it doesnt auto fill form and reupload to database on refresh
     else:
             return render(request,'ClimbingSocialMedia/Posts.html', context=post)
    

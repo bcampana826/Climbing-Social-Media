@@ -90,14 +90,14 @@
  </nav>
 </div>
 
-<!-- Button trigger modal -->
+<!-- Button trigger for modal pop up -->
 <div class="newpostbutton">
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CreatePost">
    Create New Post
  </button>
 </div>
  
- <!-- Modal -->
+ <!-- Pop up modal for post creation -->
  <div class="modal fade" id="CreatePost" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog">
      <div class="modal-content">
@@ -116,6 +116,8 @@
 
          </div>
        </div>
+
+       <!---Onsubmit form to send to database-->
        <div class="modal-footer">
          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
          <button type="submit" value="Post" class="btn btn-primary">Post</button>
@@ -124,6 +126,7 @@
      </div>
    </div>
  </div>
+
   <!-- filling container with posts -->
 {% for key in post %}
 
