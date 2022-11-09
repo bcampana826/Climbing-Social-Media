@@ -6,11 +6,10 @@ from django.urls import reverse
 from .models import Post
 
 
-
 def auth_login(request):
-    if request.method == "POST": #on form submit
-        username = request.POST.get("uname") #get user from input on login page
-        psw = request.POST.get("psw") #get password from input on login page
+    if request.method == "POST":  # on form submit
+        username = request.POST.get("uname")  # get user from input on login page
+        psw = request.POST.get("psw")  # get password from input on login page
         user = authenticate(request, username=username, password=psw)
         if user is not None:
             # A backend authenticated the credentials
@@ -21,11 +20,12 @@ def auth_login(request):
             return render(request, 'ClimbingSocialMedia/Login.html')
     return render(request, 'ClimbingSocialMedia/Login.html')
 
+
 def register(request):
-    if request.method == "POST": #on form submit
-        email = request.POST.get("email") #get email from input on register page
-        username = request.POST.get("uname") #get user from input on register page
-        psw = request.POST.get("psw") #get password from input on register page
+    if request.method == "POST":  # on form submit
+        email = request.POST.get("email")  # get email from input on register page
+        username = request.POST.get("uname")  # get user from input on register page
+        psw = request.POST.get("psw")  # get password from input on register page
         print(email)
         print(username)
         print(psw)
@@ -33,8 +33,11 @@ def register(request):
         user.save()
         return redirect(reverse("Post"))
     return render(request, 'ClimbingSocialMedia/Register.html')
+
+
 def tos(request):
-     return render(request, 'ClimbingSocialMedia/TOS.txt')
+    return render(request, 'ClimbingSocialMedia/TOS.txt')
+
 
 def posts(request):
     data = Post.objects.all()
