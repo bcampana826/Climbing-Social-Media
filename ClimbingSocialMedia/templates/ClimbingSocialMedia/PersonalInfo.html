@@ -1,13 +1,16 @@
-<h1> Tell us about yourself</h1>
+<h1> Tell us about yourself<!-- replace with name of person --></h1>
 
 
 <form action="results.html" method="GET" enctype="multipart/form-data">
     <div>
-      <label for="name">Username</label>
+      <label for="Fname">First Name</label>
       <input type="text" name="Fname" id="Fname" required>
   </div>
   <div>
-    <!--
+    <label for="Lname">Last Name</label>
+    <input type="text" name="Fname" id="Fname" required>
+  </div>
+  <div>
     <label for="age">Age</label>
     <input type="number" name="age" id="age" min="1" max="200" step="5">
   </div>
@@ -40,12 +43,10 @@
     <textarea id="bio" name="bio"></textarea>
   </div>
   <input type="hidden" name="hidden" value="hi">
-  <!--
   <div>
     <label for="phone">Phone</label>
     <input type="tel" name="phone" id="phone">  
   </div>
--->
   <div>
     <label for="avatar">Choose a profile picture:</label>
     <input type="file"
