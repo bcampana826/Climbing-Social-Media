@@ -22,5 +22,7 @@ urlpatterns = [
     path('register/',views.register,name="Register"),
     path('',views.auth_login,name = "Login"),
     path('tos/',views.tos,name="TOS"),
-    path('post/',views.posts,name="Post")
+    path('post/',views.posts,name="Post"),
+    path('profile/',views.profile,name="ProfilePage"),
+    path('info/',views.per_info,name='PersonalInfo')
 ]

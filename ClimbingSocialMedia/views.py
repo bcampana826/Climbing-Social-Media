@@ -26,9 +26,6 @@ def register(request):
         email = request.POST.get("email") #get email from input on register page
         username = request.POST.get("uname") #get user from input on register page
         psw = request.POST.get("psw") #get password from input on register page
-        print(email)
-        print(username)
-        print(psw)
         user = User.objects.create_user(email=email, username=username, password=psw)
         user.save()
         return redirect(reverse("Post"))
@@ -44,3 +41,9 @@ def posts(request):
     }
 
     return render(request, 'ClimbingSocialMedia/Posts.html', context=post)
+
+def profile(request):
+    return render(request, 'ClimbingSocialMedia/ProfilePage.html')
+
+def per_info(request):
+    return render(request, 'ClimbingSocialMedia/PersonalInfo.html')
