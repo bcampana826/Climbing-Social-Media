@@ -1,12 +1,9 @@
-import this
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.urls import reverse
 from .models import Post
-
-
 
 
 
@@ -40,21 +37,10 @@ def tos(request):
      return render(request, 'ClimbingSocialMedia/TOS.txt')
 
 def posts(request):
-    
-    data = Post.objects.all().order_by('-date')
+    data = Post.objects.all()
+
     post = {
         "post": data
     }
 
-    if request.method == 'POST':
-      if request.POST.get('description'):
-            createPost=Post()
-            createPost.description = request.POST.get('description')
-            createPost.media = request.POST.get('imageURL')
-            createPost.author = request.user
-            createPost.save()
-            return redirect("/post")
-    else:
-            return render(request,'ClimbingSocialMedia/Posts.html', context=post)
-   
     return render(request, 'ClimbingSocialMedia/Posts.html', context=post)
