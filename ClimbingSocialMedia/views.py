@@ -1,14 +1,9 @@
-import this
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.urls import reverse
 from .models import Post
-
-
-
-
 
 def auth_login(request):
     if request.method == "POST": #on form submit
@@ -36,6 +31,7 @@ def register(request):
         user.save()
         return redirect(reverse("Post"))
     return render(request, 'ClimbingSocialMedia/Register.html')
+
 def tos(request):
      return render(request, 'ClimbingSocialMedia/TOS.txt')
 
