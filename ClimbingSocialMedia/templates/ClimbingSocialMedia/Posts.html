@@ -1,61 +1,134 @@
-{% extends 'base.html' %}{% block title %} Rock Climbing Social Media {% endblock %}{% block content %}
-<style>
-   .navbar-nav {
-   margin-left: 5px;    }    .btn-primary{
-   margin-left: 5px;    }    .btn-outline-success{
-   margin-left: 5px;
-   }    .d-flex{
-   margin-left: 725px;    }    .navbar{
-   right: 175px;
-   width: 1450px;
-   }    .container-post{
-   margin: auto;
-   width: 50%;
-   border: 1px solid black;
-   padding: 20px;
-   }    .description{
-   text-align: center;
-   }    .image{
-   text-align: center;
-   padding: 10px;
-   }
-</style>
-<nav class="navbar navbar-expand-lg bg-light">
-   <div class="container-fluid" >
-      <a class="navbar-brand" href="#">ClimbingSocialMedia</a>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent" style="left: 500px;">
-         <ul class="navbar-nav" >
-            <li class="nav-item">
-               <a class="btn btn-primary" href="/Signin" role="button">Profile</a>
-            </li>
-         </ul>
-         <form class="d-flex" role="search" style="left: 675px;">
-            <input class="form-control me-2" type="search" placeholder="Search User" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-         </form>
-         <ul class="navbar-nav">
-            <li class="nav-item" >
-               <a class="btn btn-primary" style="left: 675px;" href="/Signin" role="button">Sign Out</a>
-            </li>
-         </ul>
-      </div>
-   </div>
-</nav>
-</div>
-{% for key in post %}
+{% extends 'base.html' %} {% block title %} Rock Climbing Social Media {% endblock %} {% block content %} <style>
+  /*Overwrite for whole container*/
+  .container {
+    max-width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+  }
 
-<div class="container-post">
-   <header class=""author> {{key.author}}   </header>
-   <div class = "description">
-      <text>{{key.description}}</text>
-   </div>
-   <div class="image">
-      <img src={{key.media}} alt="Avatar" height = "200" class="avatar">
-   </div>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-   <i onclick="myFunction(this)" class="fa fa-thumbs-up">    </i>
-   <input class="commentbar" type="search" placeholder="Add Comment" aria-label="Search">
+  /*Navbar*/
+  .navbar {
+    background-color: black;
+  }
+
+  /*Navbar Container*/
+  .container-fluid {
+    justify-content: left;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    top: 0;
+    left: 0;
+  }
+
+  /*Container for all searching elements*/
+  .d-flex {
+    margin-left: 55%;
+  }
+
+  /*Search Bar*/
+  .form-control {
+    margin-right: 2%;
+  }
+
+  /*Create post button*/
+  .newpostbutton {
+    margin-left: 45%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+  }
+
+  /*Post container*/
+  .container-post {
+    background-color: rgb(221, 195, 195);
+    width: 50%;
+    margin: auto;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    border: 4px solid black;
+    padding: 20px;
+  }
+
+  /*Post description*/
+  .description {
+    text-align: center;
+  }
+
+  /*Post image*/
+  .image {
+    text-align: center;
+    padding: 10px;
+  }
+
+  .commentbar {
+    background-color: rgb(221, 195, 195);
+  }
+</style>
+<!------- Top header bar ----->
+<div class="container-fluid">
+  <nav class="navbar">
+    <div class="container-fluid">
+      <a class="navbar-brand">ClimbingSocialMedia</a>
+      <ul class="navbar-nav">
+        <li class="profilebutton">
+          <a class="btn btn-primary" href="" role="button">Profile</a>
+        </li>
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="btn btn-primary" href="/login" role="button">Sign Out</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 </div>
+<!-- Button trigger for modal pop up -->
+<div class="newpostbutton">
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CreatePost"> Create New Post </button>
 </div>
-{% endfor %}
-{% endblock %}
+<!-- Pop up modal for post creation -->
+<div class="modal fade" id="CreatePost" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Add a new post!</h1>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <form action="" method="POST"> {% csrf_token %} <label for="description-box">Description</label>
+            <textarea class="form-control" rows="3" id="description-box" placeholder="Enter Description" name="description"></textarea>
+            <label for="image-box">Image upload</label>
+            <textarea class="form-control" rows="1" id="image-box" name="imageURL" placeholder="URL Link"></textarea>
+        </div>
+      </div>
+      <!---Onsubmit form to send to database-->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" value="Post" class="btn btn-primary">Post</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- filling container with posts --> {% for key in post %} <div class="container-post">
+  <header class="author"> {{key.author}} </header>
+  <div class="description">
+    <text>{{key.description}}</text>
+  </div>
+  <div class="image">
+    <img src={{key.media}} alt="Avatar" height="200" class="avatar">
+  </div>
+  <div class="date">
+    <text>{{key.date}}</text>
+  </div>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <i onclick="myFunction(this)" class="fa fa-thumbs-up"></i>
+  <input class="commentbar" type="search" placeholder="Add Comment" aria-label="Search">
+</div>
+</div> {% endfor %} {% endblock %}
