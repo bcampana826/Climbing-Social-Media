@@ -39,11 +39,28 @@ def tos(request):
     return render(request, 'ClimbingSocialMedia/TOS.txt')
 
 
+from django.core.files.storage import FileSystemStorage
 def posts(request):
-    data = Post.objects.all()
-
+    
+    data = Post.objects.all().order_by('-date') #orders the post being pulled by date
     post = {
-        "post": data
+        "post": data    #list of posts pushed to frontend
     }
+
+    if request.method == 'POST': #on form submit
+      if request.POST.get('description'): 
+            upload = request.FILES['filename']
+            fss = FileSystemStorage()
+            file = fss.save(upload.name, upload)
+            file_url = fss.url(file)
+            createPost=Post() #creates a new post in databse
+            createPost.description = request.POST.get('description') #fil's in description field from frontend
+            createPost.media = file_url#  fills in image url fromfrontend
+            createPost.author = request.user #grabs current urser and updates author field
+            createPost.save() #saves and updates databse
+            return redirect("/post") #redirects back to page so it doesnt auto fill form and reupload to database on refresh
+    else:
+            return render(request,'ClimbingSocialMedia/Posts.html', context=post)
+   
 
     return render(request, 'ClimbingSocialMedia/Posts.html', context=post)
