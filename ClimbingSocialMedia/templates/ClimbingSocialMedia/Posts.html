@@ -10,6 +10,19 @@
   .navbar {
     background-color: black;
   }
+ .col-auto{
+   padding: 10px 0;
+   display: flex;
+   justify-content: flex-end;
+  }
+
+  .row{
+   display:contents;
+  }
+
+  .report{
+   margin-left: 50%;
+  }
 
   /*Navbar Container*/
   .container-fluid {
@@ -189,15 +202,14 @@
             <textarea class="form-control" rows="3" id="description-box" placeholder="Enter Description" name="description"></textarea>
             <label for="image-box">Image upload</label>
             <input type="file" id="filename" name="filename">
-          </form>
         </div>
       </div>
       <!---Onsubmit form to send to database-->
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
         <button type="submit" value="Post" class="btn btn-primary">Post</button>
-        </form>
       </div>
+      </form>
     </div>
   </div>
 </div>
@@ -214,7 +226,7 @@
   </div>
   {% if key.media %}
   <div class="image">
-    <img src={{key.media}} alt="Avatar" height="200" class="avatar">
+    <img src={{key.media}} alt="{{key.media}}" height="200" class="avatar">
   </div>
   {% endif %}
 
@@ -242,13 +254,12 @@
   </div>
 
   {% if key.comments %}
-  <form class="row g-2" method="POST"> {% csrf_token %}
-    <div class="description">
+  <form class="row" method="POST"> {% csrf_token %}
+    <div class="col-auto">
       <input class="form-control" type="text" placeholder="Comments" name="comment-descr" aria-label=".form-control-lg example">
       <input type="hidden" name="post-id" value={{key.id}} />
-    </div>
-    <div>
       <button type="submit" value="Post" class="btn btn-primary mb-3">Submit</button>
+      <a type="button" href="/report" class="btn btn-danger mb-3 report" >Report</a>
     </div>
   </form>
   <div class="accordion" id="myAccordion">
