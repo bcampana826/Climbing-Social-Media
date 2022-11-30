@@ -9,7 +9,13 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
 from django.core.files.storage import FileSystemStorage
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
+from django.http import HttpResponseRedirect
 
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('Login'))
 
 def auth_login(request):
     if request.method == "POST":  # on form submit
@@ -43,6 +49,7 @@ def tos(request):
 def report(request):
     return render(request, 'ClimbingSocialMedia/Report.html')
 
+@login_required
 def posts(request):
     data = Post.objects.all().order_by('-date')  # orders the post being pulled by date
     post = {
