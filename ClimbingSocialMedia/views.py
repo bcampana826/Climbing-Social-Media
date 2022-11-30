@@ -40,6 +40,8 @@ def register(request):
 def tos(request):
     return render(request, 'ClimbingSocialMedia/TOS.txt')
 
+def report(request):
+    return render(request, 'ClimbingSocialMedia/Report.html')
 
 def posts(request):
     data = Post.objects.all().order_by('-date')  # orders the post being pulled by date
@@ -53,7 +55,7 @@ def posts(request):
         if request.POST.get('description'):
 
             createPost = Post()  # creates a new post in databse
-
+            print("________________________________________________")
             if request.FILES:
                 upload = request.FILES['filename']
                 fss = FileSystemStorage()
@@ -74,9 +76,9 @@ def posts(request):
             createComment.author = request.user  # grabs current urser and updates author field
             createComment.save()  # saves and updates database
             id = uuid.UUID(request.POST.get('post-id'))
-            post = Post.objects.get(id=id)
-            post.comments.add(createComment)
-            post.save()
+            new_post = Post.objects.get(id=id)
+            new_post.comments.add(createComment)
+            new_post.save()
 
             return redirect(
                 "/post")  # redirects back to page so it doesnt auto fill form and reupload to database on refresh

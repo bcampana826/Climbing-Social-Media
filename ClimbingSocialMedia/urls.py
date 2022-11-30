@@ -25,7 +25,8 @@ urlpatterns = [
     path('',views.auth_login,name = "Login"),
     path('tos/',views.tos,name="TOS"),
     path('post/',views.posts,name="Post"),
-    path('posts/:likes', views.update_post_likes)
+    path('posts/:likes', views.update_post_likes),
+    path('report/',views.report,name="Report")
 ]
 
 if settings.DEBUG:
