@@ -95,6 +95,10 @@ def posts(request):
 
     return render(request, 'ClimbingSocialMedia/Posts.html', context=post)
 
+@login_required
+def profile(request):
+    return render(request, 'ClimbingSocialMedia/Profile.html')
+
 
 @csrf_exempt
 def update_post_likes(request):
