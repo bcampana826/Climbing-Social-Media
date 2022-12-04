@@ -47,12 +47,29 @@ button:hover, a:hover {
 </head>
 <body>
 
-<h2 style="text-align:center">User Profile Card</h2>
+<!--
+<h2 style="text-align:center">{{ user.gymprofile }}</h2>
+
+<div class="card">
+  <img src={{ user.gymprofile.picture.url }}>
+  <h1>{{ user.username }}</h1> 
+  <p>{{ user.gymprofile.bio }}</p>
+  <p>{{ user.gymprofile.gymname }}</p>
+  <p>{{ user.gymprofile.location }}</p>
+  <p>{{ user.gymprofile.verified }}</p>
+  <div style="margin: 24px 0;">
+    <a href="#"><i class="fa fa-dribbble"></i></a> 
+    <a href="#"><i class="fa fa-twitter"></i></a>  
+    <a href="#"><i class="fa fa-linkedin"></i></a>  
+    <a href="#"><i class="fa fa-facebook"></i></a> 
+  </div>
+  <p><button>Contact</button></p> -->
+
+<h2 style="text-align:center">{{ user.userprofile }}</h2>
 
 <div class="card">
   <img src={{ user.userprofile.picture.url }}>
   <h1>{{ user.username }}</h1>
-  <!-- <p class="title">CEO & Founder, Example</p> -->
   <p>{{ user.userprofile.bio }}</p>
   <div style="margin: 24px 0;">
     <a href="#"><i class="fa fa-dribbble"></i></a> 
@@ -61,6 +78,7 @@ button:hover, a:hover {
     <a href="#"><i class="fa fa-facebook"></i></a> 
   </div>
   <p><button>Contact</button></p>
+
 </div>
 
 </body>
