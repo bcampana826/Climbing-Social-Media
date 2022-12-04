@@ -9,7 +9,7 @@ def create_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
 
-
+## Once user is created user profile is created for that user
 @receiver(post_save, sender=User)
 def save_profile(sender, instance, **kwargs):
     instance.userprofile.save()
