@@ -6,10 +6,13 @@ from django.contrib.auth.models import User
 
 
 class UserProfile(models.Model):
-    user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, null=False, on_delete=models.CASCADE)
     bio = models.CharField(max_length=500, blank=True)
-    picture = models.ImageField(upload_to='', null=True, blank=True)
+    picture = models.ImageField(default='defaultProfilePic.jpg', upload_to='user_profile_pictures', null=True, blank=True)
 
+    def __str__(self):
+        return f'{self.user.username}\'s Personal Profile'
+  
 
 class Comment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
