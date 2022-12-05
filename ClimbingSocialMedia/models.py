@@ -12,17 +12,7 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f'{self.user.username}\'s Personal Profile'
-    
-class GymProfile(models.Model):
-    user = models.OneToOneField(User, null=False, on_delete=models.CASCADE)
-    gym_name = models.CharField(max_length=50, null=False)
-    bio = models.CharField(max_length=500, blank=True)
-    picture = models.ImageField(default='defaultProfilePic.jpg', upload_to='gym_profile_pictures', null=True,blank=True)
-    verified = models.BooleanField(default=False)
-    location = models.CharField(max_length=50, blank=True)
-    
-    def __str__(self):
-        return f'{self.user.username}\'s Gym Profile'
+  
 
 class Comment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
