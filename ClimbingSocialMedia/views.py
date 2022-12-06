@@ -11,7 +11,7 @@ from .models import *
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 
 def logout_view(request):
     logout(request)
@@ -62,7 +62,6 @@ def posts(request):
         if request.POST.get('description'):
 
             createPost = Post()  # creates a new post in databse
-            print("________________________________________________")
             if request.FILES:
                 upload = request.FILES['filename']
                 fss = FileSystemStorage()
@@ -99,12 +98,14 @@ def posts(request):
 def profile(request):
     return render(request, 'ClimbingSocialMedia/ProfilePage.html')
 
-def profile_other(request, username):
-    users = list(User.objects.filter(username=username))
-    if len(users) is 0:
+def profile_other(request, username): #see a different persons profile
+    users = list(User.objects.filter(username=username)) #get the user from path parameter (username)
+    if len(users) is 0: #if no user exists with this name
         return HttpResponseRedirect(reverse('Post'))
-    user = users[0]
-    return render(request, 'ClimbingSocialMedia/ProfilePage.html', {"user":user})
+    user = users[0] #get the user with that username
+    if user.username == request.user.username:
+        return HttpResponseRedirect(reverse('Profile'))
+    return render(request, 'ClimbingSocialMedia/ProfilePage.html', {"user":user, "other":True, "me": request.user})
 
 @login_required
 def per_info(request):
@@ -124,3 +125,23 @@ def update_post_likes(request):
             post.likes.add(user)
         if like is False:
             post.likes.remove(user)
+        return HttpResponse("Success")
+
+@csrf_exempt
+def update_followers(request):
+    if request.method == 'POST':
+        post = json.loads(request.body)
+        user = post['followed_user'] #user to be followed
+        me = post['me'] #the user who is doing the following
+        unfollow = post['unfollow'] #boolean  either unfollow (remove) or follow (add)
+        user = list(User.objects.filter(username=user))[0]
+        followed_user_profile = list(UserProfile.objects.filter(user=user))[0]
+        me = list(User.objects.filter(username=me))[0]
+        my_profile = list(UserProfile.objects.filter(user=me))[0]
+        if unfollow:
+            followed_user_profile.followed_by.remove(me)
+            my_profile.following.remove(user)
+        else:
+            followed_user_profile.followed_by.add(me)
+            my_profile.following.add(user)
+        return HttpResponse("Success")
