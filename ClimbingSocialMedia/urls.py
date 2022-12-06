@@ -29,6 +29,7 @@ urlpatterns = [
     path('report/',views.report,name="Report"),
     path('logout/', views.logout_view, name="logout"),
     path('profile/', views.profile, name="Profile"),
+    path('profile/<username>', views.profile_other),
     path('info/',views.per_info,name='PersonalInfo')
 ]
 

@@ -99,6 +99,13 @@ def posts(request):
 def profile(request):
     return render(request, 'ClimbingSocialMedia/ProfilePage.html')
 
+def profile_other(request, username):
+    users = list(User.objects.filter(username=username))
+    if len(users) is 0:
+        return HttpResponseRedirect(reverse('Post'))
+    user = users[0]
+    return render(request, 'ClimbingSocialMedia/ProfilePage.html', {"user":user})
+
 @login_required
 def per_info(request):
     return render(request, 'ClimbingSocialMedia/PersonalInfo.html')
