@@ -77,11 +77,65 @@ button:hover, a:hover {
     <a href="#"><i class="fa fa-linkedin"></i></a>  
     <a href="#"><i class="fa fa-facebook"></i></a> 
   </div>
-  <p><button>Contact</button></p>
+  {% if other %}
+    {% if me in user.userprofile.followed_by.all %}
+      <div id="follow-btn">
+        <p><button  class="btn btn-secondary" onclick="unfollow('{{user.username}}', '{{me}}')">Following</button></p>
+      </div>
+    {% else %}
+      <div id="follow-btn">
+        <p><button  class="btn btn-primary" onclick="follow('{{user.username}}', '{{me}}')">Follow</button></p>
+      </div>
+    {% endif %}
+  {% endif %}
+
 
 </div>
-
 </body>
 </html>
+<script>
+function follow(user, me){
+    // change follow button to show followed
+    follow_btn = document.getElementById("follow-btn")
+    follow_btn.innerHTML = '<p><button class="btn btn-secondary" onclick="unfollow(\''+"{{user.username}}"+ "\',\'"+ '{{me}}'+ '\')">Following</button></p>'
+    //envoke endpoint to change database 
+    const json = { followed_user: user,  me: me, unfollow: false};
+    fetch("/user/:following", {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+      },
+         body: JSON.stringify(json),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+}
+function unfollow(user, me){
+    // change follow button to show followed
+    follow_btn = document.getElementById("follow-btn")
+    follow_btn.innerHTML = '<p><button class="btn btn-primary" onclick="follow(\''+"{{user.username}}"+ "\',\'"+ '{{me}}'+ '\')">Follow</button></p>'
+    // envoke endpoint to change database 
+    const json = { followed_user: user,  me: me, unfollow: true};
+    fetch("/user/:following", {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+      },
+         body: JSON.stringify(json),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+}
+</script>
 
 {% endblock %}

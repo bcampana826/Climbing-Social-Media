@@ -30,6 +30,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name="logout"),
     path('profile/', views.profile, name="Profile"),
     path('profile/<username>', views.profile_other),
+    path('user/:following', views.update_followers),
     path('info/',views.per_info,name='PersonalInfo')
 ]
 
