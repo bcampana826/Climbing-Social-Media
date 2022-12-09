@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,6 +25,15 @@ urlpatterns = [
     path('',views.auth_login,name = "Login"),
     path('tos/',views.tos,name="TOS"),
     path('post/',views.posts,name="Post"),
-    path('profile/',views.profile,name="ProfilePage"),
+    path('post/:likes', views.update_post_likes),
+    path('report/',views.report,name="Report"),
+    path('logout/', views.logout_view, name="logout"),
+    path('profile/', views.profile, name="Profile"),
+    path('profile/<username>', views.profile_other),
+    path('user/:following', views.update_followers),
     path('info/',views.per_info,name='PersonalInfo')
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

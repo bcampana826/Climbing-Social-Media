@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %} Rock Climbing Social Media {% endblock %}
+
+{% block content %}
+<html>
+<style>
+body {font-family: Arial, Helvetica, sans-serif;
+
+background-repeat: no-repeat;
+/* background-size: 800px 600px; */
+
+}
+
+* {box-sizing: border-box}
+/* Full-width input fields */
+input[type=user],input[type=text], input[type=box] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+/* Set a style for all buttons */
+a {
+  background-color: red;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+  text-align: center;
+}
+
+/* Add padding to container elements */
+.container {
+  padding: 16px;
+}
+
+/* Clear floats */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+/* to set button size */
+.form-control{
+    background: #f1f1f1;
+
+}
+
+</style>
+<body>
+
+<form style="border:1px solid #ccc">
+  <div class="container">
+    <h1 text-align="center">Reporting form</h1>
+    <hr>
+    <select class="custom-select" style="width:400px" aria-label="Default select example">
+        <option selected>Reason for report</option>
+        <option value="1">Inappropriate Post</option>
+        <option value="2">Offensive Post</option>
+        <option value="3">Advertisement</option>
+      </select>
+      <hr>
+
+    <label for="user"><b>Email</b></label>
+    <input type="user" placeholder="Enter Username" name="user" required>
+    <label><b>Description of offense</b></label>
+    <textarea type="box" class="form-control" rows="3" id="description-box" placeholder="Enter Description" name="description"></textarea>
+      <br>
+     <a type="submit" href = "/post" class="">Submit</a>
+  </div>
+</form>
+</body>
+</html>
+    {% endblock %}

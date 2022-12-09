@@ -1,61 +1,289 @@
-{% extends 'base.html' %}{% block title %} Rock Climbing Social Media {% endblock %}{% block content %}
-<style>
-   .navbar-nav {
-   margin-left: 5px;    }    .btn-primary{
-   margin-left: 5px;    }    .btn-outline-success{
-   margin-left: 5px;
-   }    .d-flex{
-   margin-left: 725px;    }    .navbar{
-   right: 175px;
-   width: 1450px;
-   }    .container-post{
-   margin: auto;
-   width: 50%;
-   border: 1px solid black;
-   padding: 20px;
-   }    .description{
-   text-align: center;
-   }    .image{
-   text-align: center;
-   padding: 10px;
-   }
-</style>
-<nav class="navbar navbar-expand-lg bg-light">
-   <div class="container-fluid" >
-      <a class="navbar-brand" href="#">ClimbingSocialMedia</a>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent" style="left: 500px;">
-         <ul class="navbar-nav" >
-            <li class="nav-item">
-               <a class="btn btn-primary" href="/Signin" role="button">Profile</a>
-            </li>
-         </ul>
-         <form class="d-flex" role="search" style="left: 675px;">
-            <input class="form-control me-2" type="search" placeholder="Search User" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-         </form>
-         <ul class="navbar-nav">
-            <li class="nav-item" >
-               <a class="btn btn-primary" style="left: 675px;" href="/Signin" role="button">Sign Out</a>
-            </li>
-         </ul>
-      </div>
-   </div>
-</nav>
-</div>
-{% for key in post %}
+{% extends 'base.html' %} {% block title %} Rock Climbing Social Media {% endblock %} {% block content %} <style>
+  /*Overwrite for whole container*/
+  .container {
+    max-width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+  }
 
+  /*Navbar*/
+  .navbar {
+    background-color: black;
+  }
+ .col-auto{
+   padding: 10px 0;
+   display: flex;
+   justify-content: flex-end;
+  }
+
+  .row{
+   display:contents;
+  }
+
+  .report{
+   margin-left: 50%;
+  }
+
+  /*Navbar Container*/
+  .container-fluid {
+    justify-content: left;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    top: 0;
+    left: 0;
+  }
+
+  /*Container for all searching elements*/
+  .d-flex {
+    margin-left: 55%;
+  }
+
+  /*Search Bar*/
+  .form-control {
+    margin-right: 2%;
+  }
+
+  /*Create post button*/
+  .newpostbutton {
+    margin-left: 45%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+  }
+
+  /*Post container*/
+  .container-post {
+    background-color: rgb(221, 195, 195);
+    width: 50%;
+    margin: auto;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    border: 4px solid black;
+    padding: 20px;
+  }
+
+  /* Comment Container */
+   .container-comment {
+      background-color: rgb(200, 195, 195);
+      width: 80%;
+      margin: auto;
+      margin-top: 1%;
+      margin-bottom: 1%;
+      border: 4px solid black;
+      padding: 20px;
+  }
+
+  /*Post description*/
+  .description {
+    text-align: center;
+  }
+
+  /*Post image*/
+  .image {
+    text-align: center;
+    padding: 10px;
+  }
+
+  .commentbar {
+    background-color: rgb(221, 195, 195);
+  }
+
+</style>
+
+<script>
+  function likePost(post){
+    //change like button to show the post has been liked
+    var likeBtnId = "like-btn" + post
+    btn = document.getElementById(likeBtnId);
+    btn.innerHTML = '<a href="#!" style="text-decoration: none;" onclick="unlikePost(\'' + post + '\')">' +
+      '<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">'+
+    '<path d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"/>'+
+    '</svg></a>';
+
+    //increase number of likes by one
+    var likeCountId = "like-count" + post;
+    count = document.getElementById(likeCountId);
+    var numOfLikes = parseInt(count.innerHTML,10);
+    numOfLikes++;
+    count.innerHTML = numOfLikes;
+
+    //envoke endpoint
+    const json = { user: '{{user}}',  post_id: post, like: true};
+    fetch("/post/:likes", {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+      },
+         body: JSON.stringify(json),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
+  function unlikePost(post){
+    //change liked icon to not liked
+    var likeBtnId = "like-btn" + post
+    btn = document.getElementById(likeBtnId);
+    btn.innerHTML = '<a href="#!" style="text-decoration: none;" onclick="likePost(\'' + post + '\')">' +
+      '<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">'
+        +'<path d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.125.36-.479 1.013-1.04 1.639-.557.623-1.282 1.178-2.131 1.41C2.685 7.288 2 7.87 2 8.72v4.001c0 .845.682 1.464 1.448 1.545 1.07.114 1.564.415 2.068.723l.048.03c.272.165.578.348.97.484.397.136.861.217 1.466.217h3.5c.937 0 1.599-.477 1.934-1.064a1.86 1.86 0 0 0 .254-.912c0-.152-.023-.312-.077-.464.201-.263.38-.578.488-.901.11-.33.172-.762.004-1.149.069-.13.12-.269.159-.403.077-.27.113-.568.113-.857 0-.288-.036-.585-.113-.856a2.144 2.144 0 0 0-.138-.362 1.9 1.9 0 0 0 .234-1.734c-.206-.592-.682-1.1-1.2-1.272-.847-.282-1.803-.276-2.516-.211a9.84 9.84 0 0 0-.443.05 9.365 9.365 0 0 0-.062-4.509A1.38 1.38 0 0 0 9.125.111L8.864.046zM11.5 14.721H8c-.51 0-.863-.069-1.14-.164-.281-.097-.506-.228-.776-.393l-.04-.024c-.555-.339-1.198-.731-2.49-.868-.333-.036-.554-.29-.554-.55V8.72c0-.254.226-.543.62-.65 1.095-.3 1.977-.996 2.614-1.708.635-.71 1.064-1.475 1.238-1.978.243-.7.407-1.768.482-2.85.025-.362.36-.594.667-.518l.262.066c.16.04.258.143.288.255a8.34 8.34 0 0 1-.145 4.725.5.5 0 0 0 .595.644l.003-.001.014-.003.058-.014a8.908 8.908 0 0 1 1.036-.157c.663-.06 1.457-.054 2.11.164.175.058.45.3.57.65.107.308.087.67-.266 1.022l-.353.353.353.354c.043.043.105.141.154.315.048.167.075.37.075.581 0 .212-.027.414-.075.582-.05.174-.111.272-.154.315l-.353.353.353.354c.047.047.109.177.005.488a2.224 2.224 0 0 1-.505.805l-.353.353.353.354c.006.005.041.05.041.17a.866.866 0 0 1-.121.416c-.165.288-.503.56-1.066.56z"/>'
+       +'</svg></a>';
+
+    //decrease number of likes by one
+    var likeCountId = "like-count" + post;
+    count = document.getElementById(likeCountId);
+    var numOfLikes = parseInt(count.innerHTML,10);
+    numOfLikes--;
+    count.innerHTML = numOfLikes;
+
+    //envoke endpoint
+    const json = { user: '{{user}}',  post_id: post, like: false};
+    fetch("/post/:likes", {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+      },
+         body: JSON.stringify(json),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
+</script>
+
+<!------- Top header bar ----->
+<div class="container-fluid">
+  <nav class="navbar">
+    <div class="container-fluid">
+      <a class="navbar-brand">ClimbingSocialMedia</a>
+      <ul class="navbar-nav">
+        <li class="profilebutton">
+          <a class="btn btn-primary" href="/profile" role="button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+          </svg>{{request.user}}</a>
+        </li>
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="btn btn-primary" href="/logout" role="button">Sign Out</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+<!-- Button trigger for modal pop up -->
+<div class="newpostbutton">
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CreatePost"> Create New Post </button>
+</div>
+<!-- Pop up modal for post creation -->
+<div class="modal fade" id="CreatePost" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Add a new post!</h1>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %} <label for="description-box">Description</label>
+            <textarea class="form-control" rows="3" id="description-box" placeholder="Enter Description" name="description"></textarea>
+            <label for="image-box">Image upload</label>
+            <input type="file" id="filename" name="filename">
+        </div>
+      </div>
+      <!---Onsubmit form to send to database-->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" value="Post" class="btn btn-primary">Post</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- filling container with posts -->
+{% for key in post %}
 <div class="container-post">
-   <header class=""author> {{key.author}}   </header>
-   <div class = "description">
-      <text>{{key.description}}</text>
-   </div>
-   <div class="image">
-      <img src={{key.media}} alt="Avatar" height = "200" class="avatar">
-   </div>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-   <i onclick="myFunction(this)" class="fa fa-thumbs-up">    </i>
-   <input class="commentbar" type="search" placeholder="Add Comment" aria-label="Search">
-</div>
-</div>
-{% endfor %}
-{% endblock %}
+  <div style="clear: both">
+    <header style="float: left">{{key.author}}</header>
+    <header style="float: right">{{key.date}}</header>
+  </div>
+  <br>
+  <div class="description">
+    <text>{{key.description}}</text>
+  </div>
+  {% if key.media %}
+  <div class="image">
+    <img src={{key.media}} alt="{{key.media}}" height="200" class="avatar">
+  </div>
+  {% endif %}
+
+
+  <div id="like-comment-bar">
+    <div id="like-count{{key.id}}">
+      {{key.likes.count}}
+    </div>
+    <div id="like-btn{{key.id}}">
+      {% if user in key.likes.all %}
+      <a href="#!" style="text-decoration: none;" onclick="unlikePost('{{key.id}}')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
+          <path d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"/>
+        </svg>
+      </a>
+    </div>
+      {% else %}
+      <a href="#!" style="text-decoration: none;" onclick="likePost('{{key.id}}')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
+          <path d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.125.36-.479 1.013-1.04 1.639-.557.623-1.282 1.178-2.131 1.41C2.685 7.288 2 7.87 2 8.72v4.001c0 .845.682 1.464 1.448 1.545 1.07.114 1.564.415 2.068.723l.048.03c.272.165.578.348.97.484.397.136.861.217 1.466.217h3.5c.937 0 1.599-.477 1.934-1.064a1.86 1.86 0 0 0 .254-.912c0-.152-.023-.312-.077-.464.201-.263.38-.578.488-.901.11-.33.172-.762.004-1.149.069-.13.12-.269.159-.403.077-.27.113-.568.113-.857 0-.288-.036-.585-.113-.856a2.144 2.144 0 0 0-.138-.362 1.9 1.9 0 0 0 .234-1.734c-.206-.592-.682-1.1-1.2-1.272-.847-.282-1.803-.276-2.516-.211a9.84 9.84 0 0 0-.443.05 9.365 9.365 0 0 0-.062-4.509A1.38 1.38 0 0 0 9.125.111L8.864.046zM11.5 14.721H8c-.51 0-.863-.069-1.14-.164-.281-.097-.506-.228-.776-.393l-.04-.024c-.555-.339-1.198-.731-2.49-.868-.333-.036-.554-.29-.554-.55V8.72c0-.254.226-.543.62-.65 1.095-.3 1.977-.996 2.614-1.708.635-.71 1.064-1.475 1.238-1.978.243-.7.407-1.768.482-2.85.025-.362.36-.594.667-.518l.262.066c.16.04.258.143.288.255a8.34 8.34 0 0 1-.145 4.725.5.5 0 0 0 .595.644l.003-.001.014-.003.058-.014a8.908 8.908 0 0 1 1.036-.157c.663-.06 1.457-.054 2.11.164.175.058.45.3.57.65.107.308.087.67-.266 1.022l-.353.353.353.354c.043.043.105.141.154.315.048.167.075.37.075.581 0 .212-.027.414-.075.582-.05.174-.111.272-.154.315l-.353.353.353.354c.047.047.109.177.005.488a2.224 2.224 0 0 1-.505.805l-.353.353.353.354c.006.005.041.05.041.17a.866.866 0 0 1-.121.416c-.165.288-.503.56-1.066.56z"/>
+        </svg>
+      </a>
+    </div>
+    {% endif %}
+  </div>
+
+  {% if key.comments %}
+  <form class="row" method="POST"> {% csrf_token %}
+    <div class="col-auto">
+      <input class="form-control" type="text" placeholder="Comments" name="comment-descr" aria-label=".form-control-lg example">
+      <input type="hidden" name="post-id" value={{key.id}} />
+      <button type="submit" value="Post" class="btn btn-primary mb-3">Submit</button>
+      <a type="button" href="/report" class="btn btn-danger mb-3 report" >Report</a>
+    </div>
+  </form>
+  <div class="accordion" id="myAccordion">
+    <div class="accordion-item">
+    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target=#A{{key.id}} data-parent="#myAccordion">Comments</button>
+      <div id=A{{key.id}} class="collapse"> {% for com in key.comments.all %} <div>
+          <div class="container-comment">
+            <div style="clear: both">
+              <header style="float: left">{{com.author}}</header>
+              <header style="float: right">{{com.date}}</header>
+            </div>
+            <br>
+            <div class="description">
+              <text>{{com.description}}</text>
+            </div>
+            {% if com.media %}
+            <div class="image">
+              <img src={{com.media}} alt="Avatar" height="200" class="avatar">
+            </div> {% endif %}
+          </div>
+        </div>{% endfor %}
+      </div>
+    </div> {% endif %}
+  </div>
+</div>{% endfor %} {% endblock %}

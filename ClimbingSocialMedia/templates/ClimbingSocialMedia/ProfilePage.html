@@ -47,23 +47,97 @@ button:hover, a:hover {
 </head>
 <body>
 
-<h2 style="text-align:center">User Profile Card</h2>
+<!--
+<h2 style="text-align:center">{{ user.gymprofile }}</h2>
 
 <div class="card">
-  <img src="/w3images/team2.jpg" alt="John" style="width:100%">
-  <h1>John Doe</h1>
-  <p class="title">CEO & Founder, Example</p>
-  <p>Harvard University</p>
+  <img src={{ user.gymprofile.picture.url }}>
+  <h1>{{ user.username }}</h1> 
+  <p>{{ user.gymprofile.bio }}</p>
+  <p>{{ user.gymprofile.gymname }}</p>
+  <p>{{ user.gymprofile.location }}</p>
+  <p>{{ user.gymprofile.verified }}</p>
   <div style="margin: 24px 0;">
     <a href="#"><i class="fa fa-dribbble"></i></a> 
     <a href="#"><i class="fa fa-twitter"></i></a>  
     <a href="#"><i class="fa fa-linkedin"></i></a>  
     <a href="#"><i class="fa fa-facebook"></i></a> 
   </div>
-  <p><button>Contact</button></p>
-</div>
+  <p><button>Contact</button></p> -->
 
+<h2 style="text-align:center">{{ user.userprofile }}</h2>
+
+<div class="card">
+  <img src={{ user.userprofile.picture.url }}>
+  <h1>{{ user.username }}</h1>
+  <p>{{ user.userprofile.bio }}</p>
+  <div style="margin: 24px 0;">
+    <a href="#"><i class="fa fa-dribbble"></i></a> 
+    <a href="#"><i class="fa fa-twitter"></i></a>  
+    <a href="#"><i class="fa fa-linkedin"></i></a>  
+    <a href="#"><i class="fa fa-facebook"></i></a> 
+  </div>
+  {% if other %}
+    {% if me in user.userprofile.followed_by.all %}
+      <div id="follow-btn">
+        <p><button  class="btn btn-secondary" onclick="unfollow('{{user.username}}', '{{me}}')">Following</button></p>
+      </div>
+    {% else %}
+      <div id="follow-btn">
+        <p><button  class="btn btn-primary" onclick="follow('{{user.username}}', '{{me}}')">Follow</button></p>
+      </div>
+    {% endif %}
+  {% endif %}
+
+
+</div>
 </body>
 </html>
+<script>
+function follow(user, me){
+    // change follow button to show followed
+    follow_btn = document.getElementById("follow-btn")
+    follow_btn.innerHTML = '<p><button class="btn btn-secondary" onclick="unfollow(\''+"{{user.username}}"+ "\',\'"+ '{{me}}'+ '\')">Following</button></p>'
+    //envoke endpoint to change database 
+    const json = { followed_user: user,  me: me, unfollow: false};
+    fetch("/user/:following", {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+      },
+         body: JSON.stringify(json),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+}
+function unfollow(user, me){
+    // change follow button to show followed
+    follow_btn = document.getElementById("follow-btn")
+    follow_btn.innerHTML = '<p><button class="btn btn-primary" onclick="follow(\''+"{{user.username}}"+ "\',\'"+ '{{me}}'+ '\')">Follow</button></p>'
+    // envoke endpoint to change database 
+    const json = { followed_user: user,  me: me, unfollow: true};
+    fetch("/user/:following", {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+      },
+         body: JSON.stringify(json),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+}
+</script>
+
+{% endblock %}
 
 {% endblock %}
