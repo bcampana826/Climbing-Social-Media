@@ -1,55 +1,52 @@
-<form action="results.html" method="GET" enctype="multipart/form-data">
-    <div>
-      <label for="name">First Name</label>
-      <input type="text" name="Fname" id="Fname" required>
-  </div>
-  <div>
-    <label for="name">Last Name</label>
-    <input type="text" name="Lname" id="Lname" required>
-</div>
-  <div>
-    <label for="age">Age</label>
-    <input type="number" name="age" id="age" min="1" max="200" step="5">
-  </div>
-  <div>
-    <label for="date">Birthdate</label>
-    <input type="date" name="date" id="date" min="2019-06-10">
-  </div>
-  <div>
-    Gender
-    <div>
-      <label for="male">Male</label>
-      <input type="radio" name="gender" id="male" value="male">
+{% extends 'base.html' %}
+
+{% block title %} Rock Climbing Social Media {% endblock %}
+
+{% block content %}
+
+    <div class="row my-3 p-3">
+        <img class="account-img" src="{{ user.userprofile.picture.url }} " style="cursor: pointer;"/>
     </div>
-    <div>
-      <label for="female">Female</label>
-      <input type="radio" name="gender" id="female" value="female">
+    {% if user_form.errors %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <div id="form_errors">
+                {% for key, value in user_form.errors.items %}
+                    <strong>{{ value }}</strong>
+                {% endfor %}
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <div class="form-content">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="small mb-1">Username:</label>
+                            {{ user_form.username }}
+                        <label class="small mb-1">Email:</label>
+                            {{ user_form.email }}
+                    </div>
+                    <div class="form-group">
+                        <a href="#">Change Password</a>
+                        <hr>
+                        <label class="small mb-1">Change Profile Picture:</label>
+                        {{ profile_form.picture }}
+                    </div>
+                    <label class="small mb-1">Bio:</label> {{ profile_form.bio }}
+                    <label class="small mb-1">Facebook URL:</label> {{ profile_form.facebook_url }}
+                    <label class="small mb-1">Twitter URL:</label> {{ profile_form.twitter_url }}
+                    <label class="small mb-1">Youtube URL:</label> {{ profile_form.youtube_url }}
+                    <label class="small mb-1">Instagram URL:</label> {{ profile_form.instagram_url }}
+                </div>
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
+            <!-- <button type="reset" class="btn btn-dark btn-lg">Reset</button> -->
+        </form>
     </div>
-    <div>
-        <label for="female">Other</label>
-        <input type="radio" name="gender" id="Other" value="Other">
-    </div>
-    <div>
-        <label for="female">Prefer not to say</label>
-        <input type="radio" name="gender" id="No_ans" value="No_ans">
-    </div>
-  </div>
-  <div>
-    <label for="bio">Bio</label>
-    <textarea id="bio" name="bio"></textarea>
-  </div>
-  <input type="hidden" name="hidden" value="hi">
-  <div>
-    <label for="phone">Phone</label>
-    <input type="tel" name="phone" id="phone">
-  </div>
-  <div>
-    <label for="avatar">Choose a profile picture:</label>
-    <input type="file"
-       id="avatar" name="avatar"
-       accept="image/png, image/jpeg">
-  </label>
-  </div>
-  <button type="submit">Submit</button>
-</form>
-      
+
+{% endblock content %}
