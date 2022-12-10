@@ -17,11 +17,11 @@ class UpdateUserForm(forms.ModelForm):
 ## Form to update userprofile info
 class UpdateProfileForm(forms.ModelForm):
     picture = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
-    bio = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}))
-    facebook_url = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 2}))
-    twitter_url = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 2}))
-    youtube_url = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 2}))
-    instagram_url = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 2}))
+    bio = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}), required=False)
+    facebook_url = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 2}), required=False)
+    twitter_url = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 2}), required=False)
+    youtube_url = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 2}), required=False)
+    instagram_url = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 2}), required=False)
 
     class Meta:
         model = UserProfile
