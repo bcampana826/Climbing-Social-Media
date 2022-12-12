@@ -16,6 +16,31 @@
   font-family: arial;
 }
 
+.container {
+    max-width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+   /*Navbar*/
+   .navbar {
+    background-color: black;
+  }
+
+  .d-flex {
+    margin-left: 50%;
+  }
+
+  .container-fluid {
+    justify-content: left;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    top: 0;
+    left: 0;
+  }
+
 .title {
   color: grey;
   font-size: 18px;
@@ -43,6 +68,16 @@ a {
 button:hover, a:hover {
   opacity: 0.7;
 }
+
+.navbar-brand{
+  color: #007bff;
+
+}
+
+.submit-button{
+  width:auto;
+  margin-left: 2%;
+}
 </style>
 </head>
 <body>
@@ -64,6 +99,31 @@ button:hover, a:hover {
     <a href="#"><i class="fa fa-facebook"></i></a> 
   </div>
   <p><button>Contact</button></p> -->
+
+  <!------- Top header bar ----->
+<div class="container-fluid">
+  <nav class="navbar">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/post/">ClimbingSocialMedia</a>
+      <ul class="navbar-nav">
+        <li class="profilebutton">
+          <a class="btn btn-primary" href="/profile" role="button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+          </svg>{{request.user}}</a>
+        </li>
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success submit-button" type="submit">Search</button>
+      </form>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="btn btn-primary" href="/logout" role="button">Sign Out</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
 
 <h2 style="text-align:center">{{ user.userprofile }}</h2>
 
