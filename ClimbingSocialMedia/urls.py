@@ -28,7 +28,7 @@ urlpatterns = [
     path('post/:likes', views.update_post_likes),
     path('report/',views.report,name="Report"),
     path('logout/', views.logout_view, name="logout"),
-    path('profile/', views.searchbar, name="search"),
+    path('profile/', views.profile, name="Profile"),
     path('profile/<username>', views.profile_other),
     path('user/:following', views.update_followers),
     path('info/',views.per_info,name='PersonalInfo')

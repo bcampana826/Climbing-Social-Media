@@ -90,6 +90,12 @@ def posts(request):
             return redirect(
                 "/post")  # redirects back to page so it doesnt auto fill form and reupload to database on refresh
 
+        if request.method == 'POST':
+            searched = request.POST.get('searched')
+            # users = UserProfile.objects.filter(user__contains = searched)
+            return redirect("/profile/" + str(searched), {'searched': searched})
+
+
     else:
         return render(request, 'ClimbingSocialMedia/Posts.html', context=post)
 
@@ -158,11 +164,3 @@ def update_followers(request):
             followed_user_profile.followed_by.add(me)
             my_profile.following.add(user)
         return HttpResponse("Success")
-
-def searchbar(request):
-    if request.method == 'POST':
-        searched = request.POST.get('searched')
-        #users = UserProfile.objects.filter(user__contains = searched)
-        return redirect("/profile/"+str(searched), {'searched': searched}) 
-    else:
-        return render(request, 'ClimbingSocialMedia/Posts.html')
