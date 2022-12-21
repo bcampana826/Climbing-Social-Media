@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block title %} Rock Climbing Social Media {% endblock %} {% block content %} <style>
+  {% extends 'base.html' %} {% block title %} Rock Climbing Social Media {% endblock %} {% block content %} <style>
   /*Overwrite for whole container*/
   .container {
     max-width: 100%;
@@ -89,6 +89,11 @@
     background-color: rgb(221, 195, 195);
   }
 
+  .button-max{
+    width: 100%;
+  }
+ 
+
 </style>
 
 <script>
@@ -174,6 +179,11 @@
           </svg>{{request.user}}</a>
         </li>
       </ul>
+      <ul class="navbar-nav">
+        <li class="settings">
+          <a class="btn btn-secondary" href="/info" role="button">User Info</a>
+        </li>
+      </ul>
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
@@ -219,11 +229,11 @@
 {% for key in post %}
 <div class="container-post">
   <div style="clear: both">
-    <header style="float: left">{{key.author}}</header>
-    <header style="float: right">{{key.date}}</header>
+    <a href="/profile/{{key.author}}" style="float: left" >{{key.author}}</a>
+    <a style="float: right">{{key.date}}</a>
   </div>
   <br>
-  <div class="description">
+  <div class="description" style="font-size:18px">
     <text>{{key.description}}</text>
   </div>
   {% if key.media %}
@@ -233,11 +243,14 @@
   {% endif %}
 
 
-  <div id="like-comment-bar">
-    <div id="like-count{{key.id}}">
+
+  {% if key.comments %}
+  <form class="row" method="POST"> {% csrf_token %}
+    <div class="col-auto">
+       <div id="like-count{{key.id}}" style="padding:5px;">
       {{key.likes.count}}
     </div>
-    <div id="like-btn{{key.id}}">
+    <div id="like-btn{{key.id}}" style="padding:5px;">
       {% if user in key.likes.all %}
       <a href="#!" style="text-decoration: none;" onclick="unlikePost('{{key.id}}')">
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
@@ -253,11 +266,6 @@
       </a>
     </div>
     {% endif %}
-  </div>
-
-  {% if key.comments %}
-  <form class="row" method="POST"> {% csrf_token %}
-    <div class="col-auto">
       <input class="form-control" type="text" placeholder="Comments" name="comment-descr" aria-label=".form-control-lg example">
       <input type="hidden" name="post-id" value={{key.id}} />
       <button type="submit" value="Post" class="btn btn-primary mb-3">Submit</button>
@@ -266,7 +274,7 @@
   </form>
   <div class="accordion" id="myAccordion">
     <div class="accordion-item">
-    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target=#A{{key.id}} data-parent="#myAccordion">Comments</button>
+    <button type="button" class="btn btn-secondary button-max" data-toggle="collapse" data-target=#A{{key.id}} data-parent="#myAccordion">Comments</button>
       <div id=A{{key.id}} class="collapse"> {% for com in key.comments.all %} <div>
           <div class="container-comment">
             <div style="clear: both">
