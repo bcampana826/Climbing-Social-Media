@@ -102,9 +102,20 @@ def posts(request):
 
 @login_required
 def profile(request):
+    if request.method == 'POST':
+        searched = request.POST.get('searched')
+        # users = UserProfile.objects.filter(user__contains = searched)
+        return redirect("/profile/" + str(searched), {'searched': searched})
+
     return render(request, 'ClimbingSocialMedia/ProfilePage.html')
 
 def profile_other(request, username): #see a different persons profile
+
+    if request.method == 'POST':
+        searched = request.POST.get('searched')
+        # users = UserProfile.objects.filter(user__contains = searched)
+        return redirect("/profile/" + str(searched), {'searched': searched})
+
     users = list(User.objects.filter(username=username)) #get the user from path parameter (username)
     if len(users) is 0: #if no user exists with this name
         return HttpResponseRedirect(reverse('Post'))
@@ -115,6 +126,11 @@ def profile_other(request, username): #see a different persons profile
 
 @login_required
 def per_info(request):
+    if request.method == 'POST':
+        searched = request.POST.get('searched')
+        # users = UserProfile.objects.filter(user__contains = searched)
+        return redirect("/profile/" + str(searched), {'searched': searched})
+
     if request.method == 'POST':  # on form submit
         user_form = UpdateUserForm(request.POST, instance=request.user) # update user fields (username or email)
         profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.userprofile) # update userprofile fields
