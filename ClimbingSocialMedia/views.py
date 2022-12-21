@@ -56,7 +56,6 @@ def posts(request):
     post = {
         "post": data,  # list of posts pushed to frontend
         "user": request.user
-
     }
 
     if request.method == 'POST':  # on form submit
