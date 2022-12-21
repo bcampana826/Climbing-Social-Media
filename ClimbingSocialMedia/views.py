@@ -8,6 +8,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
+from .forms import UpdateUserForm, UpdateProfileForm
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
@@ -109,7 +110,19 @@ def profile_other(request, username): #see a different persons profile
 
 @login_required
 def per_info(request):
-    return render(request, 'ClimbingSocialMedia/PersonalInfo.html')
+    if request.method == 'POST':  # on form submit
+        user_form = UpdateUserForm(request.POST, instance=request.user) # update user fields (username or email)
+        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.userprofile) # update userprofile fields
+
+        if user_form.is_valid() and profile_form.is_valid(): # If both user AND profile form instances is valid
+            user_form.save() # saves updated user fields
+            profile_form.save() # saves updated userprofile fields
+            return redirect(to='PersonalInfo') # goes back to info page
+    else:
+        user_form = UpdateUserForm(instance=request.user)
+        profile_form = UpdateProfileForm(instance=request.user.userprofile)
+
+    return render(request, 'ClimbingSocialMedia/PersonalInfo.html', {'user_form': user_form, 'profile_form': profile_form})
 
 @csrf_exempt
 def update_post_likes(request):
