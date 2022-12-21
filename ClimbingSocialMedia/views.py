@@ -27,7 +27,7 @@ def auth_login(request):
         user = authenticate(request, username=username, password=psw)
         if user is not None:
             # A backend authenticated the credentials
-            login(request, user)
+
             return redirect(reverse("Post"))
         else:
             # Could did not authenticate the credentials
@@ -42,6 +42,7 @@ def register(request):
         psw = request.POST.get("psw")  # get password from input on register page
         user = User.objects.create_user(email=email, username=username, password=psw)
         user.save()
+        login(request, user)
         return redirect(reverse("Post"))
     return render(request, 'ClimbingSocialMedia/Register.html')
 
