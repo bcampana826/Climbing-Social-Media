@@ -67,11 +67,11 @@ button:hover, a:hover {
   color: #007bff;
 
 }
+  /*Search Bar*/
+  .form-control {
+    margin-right: 2%;
+  }
 
-.submit-button{
-  width:auto;
-  margin-left: 2%;
-}
 </style>
 
 <div class="container-fluid">
@@ -90,9 +90,10 @@ button:hover, a:hover {
           </svg>{{request.user}}</a>
         </li>
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success submit-button" type="submit">Search</button>
+        <form class="d-flex" method=POST>
+        {% csrf_token %}
+        <input class="form-control me-2" type="search" name="searched" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
       <ul class="navbar-nav">
         <li class="nav-item">
