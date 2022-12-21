@@ -167,6 +167,8 @@
 
 </script>
 
+
+
 <!------- Top header bar ----->
 <div class="container-fluid">
   <nav class="navbar">
@@ -199,9 +201,20 @@
 </div>
 <!-- Button trigger for modal pop up -->
 <div class="newpostbutton">
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CreatePost"> Create New Post </button>
+  <div>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CreatePost"> Create New Post </button>
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton12" data-bs-toggle="dropdown" aria-expanded="false">
+        Dropdown button
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton12">
+        <li><a class="dropdown-item" href="#">Action</a></li>
+        <li><a class="dropdown-item" href="#">Another action</a></li>
+        <li><a class="dropdown-item" href="#">Something else here</a></li>
+      </ul>
+    </div>
 </div>
 <!-- Pop up modal for post creation -->
+
 <div class="modal fade" id="CreatePost" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -213,6 +226,7 @@
         <div class="form-group">
           <form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %} <label for="description-box">Description</label>
             <textarea class="form-control" rows="3" id="description-box" placeholder="Enter Description" name="description"></textarea>
+            <br>
             <label for="image-box">Image upload</label>
             <input type="file" id="filename" name="filename">
         </div>
@@ -226,6 +240,8 @@
     </div>
   </div>
 </div>
+
+
 <!-- filling container with posts -->
 {% for key in post %}
 <div class="container-post">
@@ -279,8 +295,8 @@
       <div id=A{{key.id}} class="collapse"> {% for com in key.comments.all %} <div>
           <div class="container-comment">
             <div style="clear: both">
-              <header style="float: left">{{com.author}}</header>
-              <header style="float: right">{{com.date}}</header>
+              <a href="/profile/{{key.author}}" style="float: left" >{{com.author}}</a>
+              <a style="float: right">{{com.date}}</a>
             </div>
             <br>
             <div class="description">
